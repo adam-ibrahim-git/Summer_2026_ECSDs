@@ -287,11 +287,81 @@ def cycleinfoshort(array: list[list[int]]) -> None:
     print("number of cyclic vertices:", len(vertices_in_cycles))
     print("cycle sizes:", sorted(cyclesizes(cycles)))
 
+def tbl80info(x):
+    numlist = []      
+    for i in range(2,x+2,2):
+        D, order, cycles, vertices_in_cycles = ecsdstuff([[-2,1],[-2,i]])
+        numcycles = len(cycles)
+        if numcycles > len(numlist) - 1:
+            for j in range (0,numcycles - len(numlist) + 1):
+                numlist.append([])
+        numlist[numcycles].append(i)
+        print(i)
+        
+    f = open("tbl80data.csv", 'w')
+    f.write("# of components, # of ECSDs, values of a\n")
+    n=0
+    for i in numlist:
+        num = len(i)
+        i = str(i)[1:-1]
+        f.write(f"{n}, {num},       , {i}\n")
+        n += 1
+    f.close()
 
+def helpnumdigits(array,x):
+    oddrule = array[0]
+    evenrule = array[1]
+    done = False
+    n=1
+    rep = ""
+
+    if x%2 == 0:
+        x -= evenrule[1]
+        x = x/evenrule[0]
+        rep = f"{evenrule[1]}" + rep
+    else:
+        x -= oddrule[1]
+        x = x/oddrule[0]
+        rep = f"{oddrule[1]}" + rep
+
+            
+    while not done:
+        if x == 0:
+            #print(n)
+            #print(rep)
+            return n
+        if x%2 == 0:
+            x -= evenrule[1]
+            x = x/evenrule[0]
+            rep = f"{evenrule[1]}" + rep
+        else:
+            x -= oddrule[1]
+            x = x/oddrule[0]
+            rep = f"{oddrule[1]}" + rep
+        n+=1
+    
+
+def digitsreq(array: list[list[int]],x) -> None:
+    x+=1
+    D, order, cycles, v = ecsdstuff(array)
+    if len(cycles) != 1:
+        print("NOT 1 COMPONENT")
+        return
+    else:
+        print("STARTING!!!")
+    numlist = []
+    for i in range(x):
+        res = helpnumdigits(array,i)
+        res2 = helpnumdigits(array,-i)
+        while res > len(numlist) or res2 > len(numlist):
+            numlist.append([])
+        numlist[res-1].append(i)
+        if i != 0:
+            numlist[res2-1].append(-i)
+    for i in range(len(numlist)):
+        print(i+1," : ",numlist[i])
+    
+        
 
 if __name__ == "__main__":
-    cycleinfo([[3,0], [3,1], [3,-7]])
-    plot_ecsd([[3,0], [3,1], [3,-7]])
-    print()
-    cycleinfo([[3,0], [3,7], [3,-1]])
-    plot_ecsd([[3,0], [3,7], [3,-1]])
+    pass
