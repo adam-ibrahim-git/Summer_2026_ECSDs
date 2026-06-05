@@ -288,7 +288,8 @@ def cycleinfoshort(array: list[list[int]]) -> None:
     print("cycle sizes:", sorted(cyclesizes(cycles)))
 
 def tbl80info(x):
-    numlist = []      
+    numlist = []
+    file = open('dummyfile.txt', 'w')
     for i in range(2,x+2,2):
         D, order, cycles, vertices_in_cycles = ecsdstuff([[-2,1],[-2,i]])
         numcycles = len(cycles)
@@ -296,8 +297,10 @@ def tbl80info(x):
             for j in range (0,numcycles - len(numlist) + 1):
                 numlist.append([])
         numlist[numcycles].append(i)
-        print(i)
+        #print(i)
+        file.write(f"{i}\n")
         
+    file.close()    
     f = open("tbl80data.csv", 'w')
     f.write("# of components, # of ECSDs, values of a\n")
     n=0
@@ -360,8 +363,32 @@ def digitsreq(array: list[list[int]],x) -> None:
             numlist[res2-1].append(-i)
     for i in range(len(numlist)):
         print(i+1," : ",numlist[i])
-    
+
+def degree3table(x):
+    numlist = []
+    file = open('dummyfile.txt', 'w')
+    for i in range(1,x+6,6):
+        for j in range(5,x+6,6):
+            D, order, cycles, vertices_in_cycles = ecsdstuff([[3,0],[3,-i],[3,j]])
+            numcycles = len(cycles)
+            if numcycles > len(numlist) - 1:
+                for k in range (0,numcycles - len(numlist) + 1):
+                    numlist.append([])
+            numlist[numcycles].append(f"({i}|{j})")
+            #print(i)
+            file.write(f"({i},{j})\n")
+        
+    file.close()    
+    f = open("degree3table.csv", 'w')
+    f.write("# of components, # of ECSDs, values of (b|c)\n")
+    n=0
+    for i in numlist:
+        num = len(i)
+        i = str(i)[1:-1]
+        f.write(f"{n}, {num},       , {i}\n")
+        n += 1
+    f.close()
         
 
 if __name__ == "__main__":
-    pass
+    degree3table(1000)
