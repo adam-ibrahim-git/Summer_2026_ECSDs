@@ -388,7 +388,36 @@ def degree3table(x):
         f.write(f"{n}, {num},       , {i}\n")
         n += 1
     f.close()
+
+def isomorphisms:
+    pass
+
+
+def smallestcycle(x):
+    numlist = []
+    file = open('dummyfile.txt', 'w')
+    for i in range(2,x+2,2):
+        D, order, cycles, vertices_in_cycles = ecsdstuff([[-2,1],[-2,i]])
+        cyclesize = min(cycles)
+        if cyclesize > len(numlist) - 1:
+            for j in range (0,numcycles - len(numlist) + 1):
+                numlist.append([])
+        numlist[cyclesize].append(i)
+        #print(i)
+        file.write(f"{i}\n")
         
+    file.close()    
+    f = open("tsmallestcycledata.csv", 'w')
+    f.write("Size of Smallest Cycle, # of ECSDs, values of a\n")
+    n=0
+    for i in numlist:
+        num = len(i)
+        i = str(i)[1:-1]
+        f.write(f"{n}, {num},       , {i}\n")
+        n += 1
+    f.close()
+    
+    
 
 if __name__ == "__main__":
     degree3table(1000)
