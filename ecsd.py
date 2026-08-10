@@ -389,7 +389,7 @@ def degree3table(x):
         n += 1
     f.close()
 
-def isomorphisms:
+def isomorphisms():
     pass
 
 
